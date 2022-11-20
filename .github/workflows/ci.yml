@@ -1,0 +1,28 @@
+name: 'CI'
+
+on:
+  push:
+    branches: ['master']
+  watch:
+    types: started
+  workflow_dispatch:
+
+concurrency:
+  group: 'CI'
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2    
+      - name: Deploy
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.CI_TOKEN }}
+        with:
+          source-directory: dist
+          destination-github-username: mem-ci-bot
+          destination-repository-name: mem-ci-bot
+          target-branch: main
+          user-email: ci@memset0.cn
