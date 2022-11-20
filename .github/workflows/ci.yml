@@ -15,6 +15,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2    
+      - name: Build
+        run: |
+          mkdir dist
+          cp README.md dist
       - name: Deploy
         uses: cpina/github-action-push-to-another-repository@main
         env:
